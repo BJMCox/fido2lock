@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15pt" height="18pt" viewBox="0 0 20 24">
+  <!-- Template image: macOS uses only the alpha channel and tints it for the menu bar.
+       The drawing fills the 18 pt menu-bar height. Sizes are in points, so the PDF keeps its aspect. -->
+  <!-- An open padlock with the eject mark: the lock is not armed. -->
+  <path fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" d="M17.3 10.5V7.8a5.3 5.3 0 0 0 -10.6 0"/>
+  <path fill="#000" fill-rule="evenodd" d="M3.5 10h13a3.2 3.2 0 0 1 3.2 3.2v7.3a3.2 3.2 0 0 1 -3.2 3.2h-13a3.2 3.2 0 0 1 -3.2 -3.2v-7.3a3.2 3.2 0 0 1 3.2 -3.2Z M10 12.9L14.8 18.1H5.2Z M5.2 19.6h9.6v2.2H5.2Z"/>
+</svg>

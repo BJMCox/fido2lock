@@ -1,0 +1,53 @@
+[workspace]
+members = ["xtask"]
+default-members = ["."]
+resolver = "3"
+
+[workspace.package]
+version = "0.1.0"
+license = "Apache-2.0"
+authors = ["Jessica Cox <jmcox@posteo.de>"]
+edition = "2024"
+rust-version = "1.89"
+
+[package]
+name = "fido2lock"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Lock your Mac when you remove your FIDO2 security key"
+publish = false
+
+[dependencies]
+anyhow = "1"
+base64 = "0.23"
+ctap-hid-fido2 = "3.6"
+dispatch2 = { version = "0.3", default-features = false, features = ["std"] }
+getrandom = "0.4"
+# Shared opens, so a check never locks browsers and other key tools out of the key.
+hidapi = { version = "2.6", default-features = false, features = ["macos-shared-device"] }
+libc = "0.2"
+objc2 = "0.6"
+objc2-app-kit = { version = "0.3", default-features = false, features = ["std", "libc", "objc2-core-foundation", "NSApplication", "NSButton", "NSCell", "NSControl", "NSEvent", "NSGraphics", "NSImage", "NSImageView", "NSLayoutConstraint", "NSMenu", "NSMenuItem", "NSPanel", "NSPasteboard", "NSResponder", "NSRunningApplication", "NSSecureTextField", "NSStatusBar", "NSStatusBarButton", "NSStatusItem", "NSTextField", "NSView", "NSWindow", "NSWorkspace"] }
+objc2-core-foundation = { version = "0.3", default-features = false, features = ["std", "CFBase", "CFDictionary", "CFNumber", "CFRunLoop", "CFString"] }
+objc2-foundation = { version = "0.3", default-features = false, features = ["std", "NSData", "NSDictionary", "NSDistributedNotificationCenter", "NSError", "NSGeometry", "NSNotification", "NSObject", "NSProcessInfo", "NSString", "NSUserDefaults", "NSValue"] }
+objc2-io-kit = { version = "0.3", default-features = false, features = ["std", "libc"] }
+objc2-service-management = { version = "0.3", default-features = false, features = ["std", "objc2", "objc2-foundation", "SMAppService"] }
+rpassword = "7"
+serde = { version = "1", features = ["derive"] }
+toml = "1"
+zeroize = "1"
+
+[dev-dependencies]
+# Tests draw the menu-bar icons into a bitmap.
+objc2-app-kit = { version = "0.3", default-features = false, features = ["NSBitmapImageRep", "NSGraphicsContext", "NSImageRep"] }
+tempfile = "3"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
+opt-level = "z"
+panic = "abort"

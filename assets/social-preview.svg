@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640">
+  <!-- GitHub social preview. Upload the PNG under Settings > General > Social preview. -->
+  <rect width="1280" height="640" fill="#232937"/>
+  <g transform="translate(330 320) scale(20) translate(-10 -12)">
+  <path fill="none" stroke="#f0b43a" stroke-width="3" stroke-linecap="round" d="M4.7 10.5V7.8a5.3 5.3 0 0 1 10.6 0V10.5"/>
+    <path fill="#f0b43a" fill-rule="evenodd" d="M3.5 10h13a3.2 3.2 0 0 1 3.2 3.2v7.3a3.2 3.2 0 0 1 -3.2 3.2h-13a3.2 3.2 0 0 1 -3.2 -3.2v-7.3a3.2 3.2 0 0 1 3.2 -3.2Z M10 12.9L14.8 18.1H5.2Z M5.2 19.6h9.6v2.2H5.2Z"/>
+  </g>
+  <text x="600" y="300" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="104" font-weight="700" fill="#f5f5f7">fido2lock</text>
+  <text x="604" y="372" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="38" fill="#aab1c3">Lock your Mac when you</text>
+  <text x="604" y="420" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="38" fill="#aab1c3">remove your security key</text>
+</svg>
