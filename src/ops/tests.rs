@@ -117,7 +117,7 @@ fn a_device_key_uses_the_hidapi_path() {
 
 #[cfg(target_os = "macos")]
 unsafe extern "C" {
-    // hidapi's C library, linked through ctap-hid-fido2.
+    // hidapi's C library, linked through fido2kit's ctap-hid-fido2.
     fn hid_darwin_get_open_exclusive() -> std::ffi::c_int;
 }
 

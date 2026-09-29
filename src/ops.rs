@@ -14,7 +14,7 @@ use crate::state::{self, Outcome};
 const APP: fido2kit::App = fido2kit::App::new("fido2lock");
 
 /// How hidapi on macOS names the device with IORegistry entry `id`.
-pub fn device_path(id: state::Id) -> String {
+fn device_path(id: state::Id) -> String {
     format!("DevSrvsID:{id}")
 }
 

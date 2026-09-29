@@ -30,7 +30,7 @@ fido2kit-mac = { path = "../fido2kit/fido2kit-mac" }
 hidapi = { version = "2.6", default-features = false, features = ["macos-shared-device"] }
 libc = "0.2"
 objc2 = "0.6"
-objc2-app-kit = { version = "0.3", default-features = false, features = ["std", "libc", "objc2-core-foundation", "NSApplication", "NSButton", "NSCell", "NSControl", "NSEvent", "NSGraphics", "NSImage", "NSImageView", "NSLayoutConstraint", "NSMenu", "NSMenuItem", "NSPanel", "NSPasteboard", "NSResponder", "NSRunningApplication", "NSSecureTextField", "NSStatusBar", "NSStatusBarButton", "NSStatusItem", "NSTextField", "NSView", "NSWindow", "NSWorkspace"] }
+objc2-app-kit = { version = "0.3", default-features = false, features = ["std", "libc", "objc2-core-foundation", "NSApplication", "NSButton", "NSCell", "NSControl", "NSGraphics", "NSImage", "NSMenu", "NSMenuItem", "NSPasteboard", "NSResponder", "NSRunningApplication", "NSStatusBar", "NSStatusBarButton", "NSStatusItem", "NSView", "NSWorkspace"] }
 objc2-core-foundation = { version = "0.3", default-features = false, features = ["std", "CFBase", "CFDictionary", "CFNumber", "CFRunLoop", "CFString"] }
 objc2-foundation = { version = "0.3", default-features = false, features = ["std", "NSData", "NSDictionary", "NSDistributedNotificationCenter", "NSError", "NSGeometry", "NSNotification", "NSObject", "NSProcessInfo", "NSString", "NSUserDefaults", "NSValue"] }
 objc2-io-kit = { version = "0.3", default-features = false, features = ["std", "libc"] }
