@@ -1,12 +1,14 @@
 mod config;
-mod fido;
 mod keys;
 mod lock;
 mod ops;
-mod panels;
 mod state;
 mod ui;
 mod watch;
+
+// The shared kit's modules, at the paths the other modules already use.
+use fido2kit::fido;
+use fido2kit_mac::panels;
 
 use anyhow::{Context, Result, bail};
 use zeroize::Zeroizing;
@@ -120,7 +122,7 @@ fn with_pin<T>(prompt: &str, touch: &str, op: impl Fn(&str) -> Result<T>) -> Res
         let pin = hidden(prompt)?;
         println!("{touch}");
         match op(&pin) {
-            Err(error) if fido::wrong_pin(&error) => eprintln!("{error:#}"),
+            Err(error) if fido::retry_pin(&error) => eprintln!("{error:#}"),
             other => return other,
         }
     }

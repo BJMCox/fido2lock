@@ -31,7 +31,7 @@ fn results_map_to_outcomes() {
 
 #[test]
 fn an_empty_list_needs_no_device() {
-    let key = fido::Key::device(1);
+    let key = device_key(1);
     assert_eq!(identify(&key, &[]).unwrap(), None);
 }
 
@@ -73,7 +73,7 @@ fn enrollment_refuses_a_bad_or_taken_label_before_any_device_call() {
     let path = dir.path().join("keys.toml");
     keys::save(&path, &[key("blue", b"1")]).unwrap();
     // No device has this entry ID, so reaching the device would fail with another message.
-    let absent = fido::Key::device(1);
+    let absent = device_key(1);
     let taken = format!("{:#}", enroll(&path, &absent, " blue ", "").unwrap_err());
     assert_eq!(taken, "A key labeled \"blue\" is already enrolled.");
     let empty = format!("{:#}", enroll(&path, &absent, "  ", "").unwrap_err());
@@ -105,7 +105,26 @@ fn a_key_that_wants_a_pin_for_the_check_is_unusable() {
     );
     assert_eq!(taken, "This key is already enrolled as \"blue\".");
     assert!(not_enrolled_yet(Ok(None)).is_ok());
-    assert!(!fido::wrong_pin(
+    assert!(!fido::retry_pin(
         &not_enrolled_yet(Err(FidoError::PinRequired)).unwrap_err()
     ));
+}
+
+#[test]
+fn a_device_key_uses_the_hidapi_path() {
+    assert_eq!(device_path(4297189420), "DevSrvsID:4297189420");
+}
+
+#[cfg(target_os = "macos")]
+unsafe extern "C" {
+    // hidapi's C library, linked through ctap-hid-fido2.
+    fn hid_darwin_get_open_exclusive() -> std::ffi::c_int;
+}
+
+// Opening a key exclusively would lock browsers and other key tools out of it during every check.
+#[cfg(target_os = "macos")]
+#[test]
+fn keys_open_shared_not_exclusive() {
+    let _ = fido::devices();
+    assert_eq!(unsafe { hid_darwin_get_open_exclusive() }, 0);
 }

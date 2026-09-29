@@ -8,7 +8,20 @@ use anyhow::{Result, anyhow, bail, ensure};
 
 use crate::fido::{self, FidoError};
 use crate::keys::{self, Key};
-use crate::state::Outcome;
+use crate::state::{self, Outcome};
+
+/// fido2lock's relying-party ID. Every enrolled key depends on it.
+const APP: fido2kit::App = fido2kit::App::new("fido2lock");
+
+/// How hidapi on macOS names the device with IORegistry entry `id`.
+pub fn device_path(id: state::Id) -> String {
+    format!("DevSrvsID:{id}")
+}
+
+/// The inserted device with IORegistry entry `id`.
+pub fn device_key(id: state::Id) -> fido::Key {
+    fido::Key::from_path(device_path(id))
+}
 
 /// Another app may hold the key for a moment, so a failed check tries once more after this.
 const RETRY: Duration = Duration::from_secs(1);
@@ -26,7 +39,7 @@ pub fn identify(key: &fido::Key, keys: &[Key]) -> Result<Option<String>, FidoErr
         return Ok(None);
     }
     let credentials: Vec<&[u8]> = keys.iter().map(|k| k.credential.as_slice()).collect();
-    let attempt = || label_of(fido::silent_assertion(key, &credentials), keys);
+    let attempt = || label_of(fido::silent_assertion(APP, key, &credentials), keys);
     attempt().or_else(|_| {
         std::thread::sleep(RETRY);
         attempt()
@@ -73,7 +86,7 @@ pub fn enroll(path: &Path, key: &fido::Key, label: &str, pin: &str) -> Result<St
         "A key labeled \"{label}\" is already enrolled."
     );
     not_enrolled_yet(identify(key, &keys))?;
-    let credential = fido::make_credential(key, pin)?;
+    let credential = fido::make_credential(APP, key, pin)?;
     let new = Key {
         label: label.clone(),
         credential,

@@ -4,7 +4,7 @@ default-members = ["."]
 resolver = "3"
 
 [workspace.package]
-version = "0.1.0"
+version = "0.2.0"
 license = "Apache-2.0"
 authors = ["Jessica Cox <jmcox@posteo.de>"]
 edition = "2024"
@@ -23,9 +23,9 @@ publish = false
 [dependencies]
 anyhow = "1"
 base64 = "0.23"
-ctap-hid-fido2 = "3.6"
 dispatch2 = { version = "0.3", default-features = false, features = ["std"] }
-getrandom = "0.4"
+fido2kit = { path = "../fido2kit/fido2kit", default-features = false }
+fido2kit-mac = { path = "../fido2kit/fido2kit-mac" }
 # Shared opens, so a check never locks browsers and other key tools out of the key.
 hidapi = { version = "2.6", default-features = false, features = ["macos-shared-device"] }
 libc = "0.2"

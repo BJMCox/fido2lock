@@ -362,7 +362,7 @@ impl Controller {
     fn check_device(&self, check: Check) {
         self.ivars().borrow().worker.run(move || {
             let outcome = match keys::path().and_then(|path| keys::load(&path)) {
-                Ok(keys) => ops::outcome(ops::identify(&fido::Key::device(check.id), &keys)),
+                Ok(keys) => ops::outcome(ops::identify(&ops::device_key(check.id), &keys)),
                 Err(_) => Outcome::Failed,
             };
             on_main(move |controller| controller.handle(Event::Checked(check, outcome)));
@@ -582,7 +582,7 @@ impl Controller {
                     self.alert(&report);
                 }
             }
-            Err(error) if fido::wrong_pin(&error) => {
+            Err(error) if fido::retry_pin(&error) => {
                 self.open_setup(Step::Enroll { first, label }, Some(&format!("{error:#}")));
             }
             Err(error) => self.show(&format!("{error:#}"), Some(Flow::Enroll { first, label })),
