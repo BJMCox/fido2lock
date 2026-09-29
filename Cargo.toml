@@ -24,8 +24,8 @@ publish = false
 anyhow = "1"
 base64 = "0.23"
 dispatch2 = { version = "0.3", default-features = false, features = ["std"] }
-fido2kit = { path = "../fido2kit/fido2kit", default-features = false }
-fido2kit-mac = { path = "../fido2kit/fido2kit-mac" }
+fido2kit = { git = "https://github.com/BJMCox/fido2kit.git", rev = "291cb446dc188c7134cb3bd9f08f5f9dc3c0df1f", default-features = false } # v0.1.0
+fido2kit-mac = { git = "https://github.com/BJMCox/fido2kit.git", rev = "291cb446dc188c7134cb3bd9f08f5f9dc3c0df1f" } # v0.1.0
 # Shared opens, so a check never locks browsers and other key tools out of the key.
 hidapi = { version = "2.6", default-features = false, features = ["macos-shared-device"] }
 libc = "0.2"
