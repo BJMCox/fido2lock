@@ -299,7 +299,7 @@ dependencies = [
 
 [[package]]
 name = "fido2lock"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "anyhow",
  "base64",
@@ -1094,7 +1094,7 @@ dependencies = [
 
 [[package]]
 name = "xtask"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "anyhow",
 ]

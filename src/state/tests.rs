@@ -35,6 +35,18 @@ fn an_inserted_device_is_checked() {
 }
 
 #[test]
+fn only_an_insertion_check_waits_for_the_key_to_settle() {
+    let mut state = State::new(true);
+    let inserted = start(&mut state, Event::Appeared(7));
+    assert!(inserted[0].settle);
+    // A recheck replacing the insertion check still talks to a key that just appeared.
+    assert!(start(&mut state, Event::Recheck)[0].settle);
+
+    let mut state = armed_with(7, "blue");
+    assert!(!start(&mut state, Event::Recheck)[0].settle);
+}
+
+#[test]
 fn removing_an_armed_key_locks() {
     let mut state = armed_with(7, "blue");
     assert_eq!(state.armed(), ["blue"]);
@@ -200,6 +212,7 @@ fn a_result_without_a_pending_check_is_ignored() {
     let stray = Check {
         id: 7,
         generation: 1,
+        settle: false,
     };
     finish(&mut state, stray, enrolled("blue"));
     assert!(state.armed().is_empty());
