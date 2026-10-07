@@ -9,6 +9,11 @@ pub type Id = u64;
 /// Seconds after a wake during which removals wait, because USB devices may reconnect.
 pub const WAKE_WINDOW: u64 = 10;
 
+/// Milliseconds an insertion check waits before it talks to the key. Some keys (Token2) switch
+/// their smart card interface away from PIV on any FIDO message, so a check during macOS's PIV read
+/// at insertion leaves the key without its smart card identity until it is plugged in again.
+pub const SETTLE_MS: i64 = 1000;
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Outcome {
     Enrolled(String),
@@ -22,6 +27,8 @@ pub enum Outcome {
 pub struct Check {
     pub id: Id,
     pub generation: u64,
+    /// Wait `SETTLE_MS` first, because the key just appeared.
+    pub settle: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -222,7 +229,11 @@ impl State {
                 inserted,
             },
         );
-        Check { id, generation }
+        Check {
+            id,
+            generation,
+            settle: inserted,
+        }
     }
 
     /// The labels of the armed keys, in entry ID order.

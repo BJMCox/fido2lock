@@ -30,7 +30,7 @@ use crate::keys::{self, Key};
 use crate::lock::Screen;
 use crate::ops;
 use crate::panels::{self, Button, Field, Form};
-use crate::state::{Action, Check, Event, Outcome, State};
+use crate::state::{Action, Check, Event, Outcome, SETTLE_MS, State};
 use crate::watch;
 
 const REPOSITORY: &str = "https://github.com/BJMCox/fido2lock";
@@ -335,7 +335,14 @@ impl Controller {
             }
             Action::Check(checks) => {
                 for check in checks {
-                    self.check_device(check);
+                    if check.settle {
+                        let settle = DispatchTime::NOW.time(SETTLE_MS * 1_000_000);
+                        let _ = DispatchQueue::main().after(settle, move || {
+                            with_controller(|controller| controller.check_device(check));
+                        });
+                    } else {
+                        self.check_device(check);
+                    }
                 }
             }
             Action::Timer { token, seconds } => {
