@@ -81,6 +81,7 @@ The release notes link each installer's VirusTotal scan.
 - The lock uses a private macOS function, the one behind Ctrl-Cmd-Q. If a macOS update removes it, the menu says "Cannot lock the screen".
 - Waking from sleep can reconnect USB devices. fido2lock waits 10 s after a wake before it acts on a removal, so a reconnect does not lock. A key taken out during sleep still locks the screen about 10 s after the wake, plus the lock delay.
 - Keys connected by NFC or Bluetooth do not arm the lock.
+- Some keys, such as the Token2, lose their smart card (PIV) identity when an app sends them a FIDO message during insertion. macOS smart card login then does not see the key. fido2lock waits 1 s before it checks a new key for this reason, but a browser or another key app can still cause it. If smart card login does not offer the key, remove it and insert it again.
 
 ## Upgrade and uninstall
 
